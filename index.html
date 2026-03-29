@@ -223,7 +223,7 @@
         <p style="color: #555; line-height: 1.6; font-size: 16px; font-weight: 500;">تم تسجيل بياناتك بنجاح في نظام العيادة.</p>
         
         <div class="discount-success-box">
-            ✅ مبروك! لقد حصلت على الخصم الإلكتروني<br>سعر الكشفية الخاص بك هو 20 ألف دينار فقط.
+            ✅ مبروك! لقد حصلت على الخصم الإلكتروني<br>سعر اجرة فحص العيادة الخاص بك هو 20 ألف دينار فقط.
         </div>
 
         <button class="submit-btn whatsapp-btn" onclick="sendPatientWhatsApp()">تأكيد الحجز عبر الواتساب 💬</button>
@@ -310,7 +310,7 @@
     // ⭐ PATIENT TO CLINIC WHATSAPP BRIDGE
     function sendPatientWhatsApp() {
         const name = document.getElementById('ptName').value.trim();
-        const msg = encodeURIComponent(`مرحباً عيادة د. سعد صبري،\nلقد قمت للتو بتسجيل حجز إلكتروني باسم (${name}).\nأرجو تأكيد الموعد علماً أنني مشمول بخصم الحجز الإلكتروني (الكشفية 20 ألف دينار). شكراً لكم.`);
+        const msg = encodeURIComponent(`مرحباً عيادة د. سعد صبري،\nلقد قمت للتو بتسجيل حجز إلكتروني باسم (${name}).\nأرجو تأكيد الموعد علماً أنني مشمول بخصم الحجز الإلكتروني (اجرة فحص العيادة 20 ألف دينار). شكراً لكم.`);
         
         // Automatically redirects them to chat with your clinic number
         window.open(`https://wa.me/9647707684499?text=${msg}`, '_blank');
