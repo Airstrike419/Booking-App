@@ -10,7 +10,6 @@
     <style>
         :root { --primary: #0055ff; --secondary: #eef4fb; --text: #1d1d1f; --text-light: #86868b; --glass: rgba(255, 255, 255, 0.65); --border: rgba(255, 255, 255, 0.4); }
         
-        /* Smooth Apple-like Animated Background */
         body { 
             font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, sans-serif; 
             margin: 0; color: var(--text); 
@@ -27,7 +26,6 @@
 
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* Universal Glassmorphism Panel */
         .glass-panel { 
             background: var(--glass); 
             backdrop-filter: blur(25px); 
@@ -40,9 +38,6 @@
             border: 1px solid var(--border); 
         }
 
-        /* -----------------------------------------
-           SPLASH SCREEN (5-SECOND INTRO)
-        ------------------------------------------ */
         #splashScreen {
             display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
             transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
@@ -59,21 +54,16 @@
         .info-card p { margin: 8px 0; font-size: 15px; line-height: 1.6; font-weight: 500; }
         .info-card strong { color: var(--primary); }
 
-        /* Apple-Style Specialty Tags */
         .specialty-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 25px; }
         .spec-tag { background: white; color: #333; padding: 10px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); }
 
         .contact-box { background: var(--secondary); color: var(--primary); padding: 15px; border-radius: 16px; font-weight: 700; font-size: 14px; margin-bottom: 20px; }
 
-        /* The 5-Second Loading Bar */
         .loader-container { width: 100%; height: 6px; background: rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; margin-top: 10px; position: relative; }
         .loader-bar { height: 100%; width: 0%; background: var(--primary); border-radius: 10px; animation: loadProgress 5s linear forwards; }
         @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
         .skip-btn { background: none; border: none; color: var(--text-light); font-size: 13px; margin-top: 15px; cursor: pointer; text-decoration: underline; font-family: inherit; }
 
-        /* -----------------------------------------
-           BOOKING FORM SCREEN
-        ------------------------------------------ */
         #bookingContainer {
             display: none; opacity: 0; transform: translateY(40px);
             transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
@@ -84,7 +74,6 @@
         .form-header img { width: 70px; height: 70px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 10px; border: 2px solid white; }
         .form-header h2 { margin: 0; font-size: 22px; color: var(--primary); font-weight: 800; }
 
-        /* The Animated Discount Badge */
         .discount-badge {
             background: linear-gradient(135deg, #ff9800, #ff5722);
             color: white;
@@ -107,17 +96,19 @@
         textarea { resize: none; min-height: 100px; }
 
         .mcq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        /* 3-column grid specifically for the days */
+        .mcq-grid.days-grid { grid-template-columns: 1fr 1fr 1fr; } 
         .mcq-chip { background: rgba(255,255,255,0.5); border: 2px solid transparent; padding: 14px; text-align: center; border-radius: 16px; font-weight: 700; font-size: 14px; color: #555; cursor: pointer; transition: 0.2s; user-select: none; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
         .mcq-chip:hover { transform: scale(1.02); background: white; }
         .mcq-chip.active { background: #fff; border-color: var(--primary); color: var(--primary); box-shadow: 0 8px 20px rgba(0, 85, 255, 0.15); }
 
-        /* Staggered Delay for Form Groups */
-        .input-group:nth-of-type(1) { animation-delay: 0.8s; } /* Name */
-        .input-group:nth-of-type(2) { animation-delay: 1.0s; } /* Age */
-        .input-group:nth-of-type(3) { animation-delay: 1.2s; } /* Phone */
-        .input-group:nth-of-type(4) { animation-delay: 1.4s; } /* Symptom */
-        .input-group:nth-of-type(5) { animation-delay: 1.6s; } /* Duration */
-        .submit-btn-group { animation-delay: 1.8s; }
+        .input-group:nth-of-type(1) { animation-delay: 0.8s; } 
+        .input-group:nth-of-type(2) { animation-delay: 1.0s; } 
+        .input-group:nth-of-type(3) { animation-delay: 1.2s; } 
+        .input-group:nth-of-type(4) { animation-delay: 1.4s; } 
+        .input-group:nth-of-type(5) { animation-delay: 1.6s; } 
+        .input-group:nth-of-type(6) { animation-delay: 1.8s; } /* Day selector */
+        .submit-btn-group { animation-delay: 2.0s; }
 
         @keyframes fadeIn { to { opacity: 1; } }
 
@@ -128,12 +119,18 @@
 
         .whatsapp-btn { background: #25d366; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3); }
         .whatsapp-btn:hover { box-shadow: 0 12px 30px rgba(37, 211, 102, 0.4); }
+        
+        /* The aggressive heartbeat animation to force clicking */
+        .force-pulse { animation: pulseWhatsApp 1.5s infinite; }
+        @keyframes pulseWhatsApp { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); box-shadow: 0 15px 35px rgba(37, 211, 102, 0.5); } }
 
         #successScreen { display: none; text-align: center; padding: 30px 0; }
         .check-icon { font-size: 60px; color: #28a745; margin-bottom: 20px; animation: popIn 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
         @keyframes popIn { 0% { transform: scale(0); } 80% { transform: scale(1.2); } 100% { transform: scale(1); } }
         
         .discount-success-box { background: rgba(255, 152, 0, 0.1); border: 2px dashed #ff9800; padding: 15px; border-radius: 16px; margin-top: 20px; color: #d84315; font-weight: 800; font-size: 15px; }
+        
+        .whatsapp-warning { background: #fff4f4; border: 1px dashed #dc3545; padding: 15px; border-radius: 16px; margin-top: 20px; margin-bottom: 20px; color: #dc3545; font-weight: 800; font-size: 15px; line-height: 1.5; }
     </style>
 </head>
 <body>
@@ -144,7 +141,8 @@
     <p class="doc-subtitle">جراح عام متخصص بالجراحة المتقدمة والمنظار</p>
 
     <div class="info-card">
-        <p>🔹  العيادة التخصصية للامراض الجراحية و المنظارية والتجميلية.</p>
+        <p>🔹 خبرة في أصعب الحالات الجراحية والمعقدة.</p>
+        <p>🔹 يعتمد تقنيات حديثة تقلل الألم وتسرّع التعافي.</p>
     </div>
 
     <div class="specialty-grid">
@@ -174,11 +172,11 @@
     <div id="bookingForm">
         <div class="form-header">
             <img src="logo.jpg" alt="Dr. Saad Sabry" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3304/3304567.png'">
-            <h2>حجز موعد فحص </h2>
+            <h2>طلب استشارة جراحية أونلاين</h2>
         </div>
 
         <div class="discount-badge">
-            🎁 عرض خصم الحجز الإلكتروني: اجرة الفحص <span>20,000 د.ع</span> بدلاً من 25,000
+            🎁 خصم الحجز الإلكتروني: الكشفية <span>20,000 د.ع</span> بدلاً من 25,000
         </div>
 
         <div class="input-group">
@@ -203,13 +201,23 @@
 
         <div class="input-group">
             <label>منذ متى تشعر بالأعراض؟</label>
-            <div class="mcq-grid">
+            <div class="mcq-grid" id="durationGrid">
                 <div class="mcq-chip" onclick="selectDuration(this, 'شهر و اكثر')">شهر و اكثر</div>
                 <div class="mcq-chip" onclick="selectDuration(this, '٣ أشهر و اكثر')">٣ أشهر و اكثر</div>
                 <div class="mcq-chip" onclick="selectDuration(this, '٦ أشهر و اكثر')">٦ أشهر و اكثر</div>
                 <div class="mcq-chip" onclick="selectDuration(this, 'سنة و اكثر')">سنة و اكثر</div>
             </div>
             <input type="hidden" id="ptDuration" value="">
+        </div>
+
+        <div class="input-group">
+            <label>اليوم المفضل للمراجعة</label>
+            <div class="mcq-grid days-grid" id="dayGrid">
+                <div class="mcq-chip" onclick="selectDay(this, 'الأربعاء')">الأربعاء</div>
+                <div class="mcq-chip" onclick="selectDay(this, 'الخميس')">الخميس</div>
+                <div class="mcq-chip" onclick="selectDay(this, 'السبت')">السبت</div>
+            </div>
+            <input type="hidden" id="ptDay" value="">
         </div>
 
         <div class="input-group submit-btn-group" style="margin-bottom: 0;">
@@ -219,19 +227,21 @@
 
     <div id="successScreen">
         <div class="check-icon">✓</div>
-        <h2 style="color: var(--primary); margin-bottom: 12px; font-weight: 800;">تم استلام طلبك بأمان</h2>
-        <p style="color: #555; line-height: 1.6; font-size: 16px; font-weight: 500;">تم تسجيل بياناتك بنجاح في نظام العيادة.</p>
+        <h2 style="color: var(--primary); margin-bottom: 12px; font-weight: 800;">تم استلام طلبك المبدئي</h2>
         
         <div class="discount-success-box">
-            ✅ مبروك! لقد حصلت على الخصم الإلكتروني<br>سعر اجرة فحص العيادة الخاص بك هو 20 ألف دينار فقط.
+            ✅ مبروك! لقد حصلت على الخصم الإلكتروني<br>سعر الكشفية الخاص بك هو 20 ألف دينار فقط.
         </div>
 
-        <button class="submit-btn whatsapp-btn" onclick="sendPatientWhatsApp()">تأكيد الحجز عبر الواتساب 💬</button>
+        <div class="whatsapp-warning">
+            ⚠️ خطوة أخيرة هامة:<br>حجزك غير مؤكد حتى تضغط على الزر أدناه لإرسال رسالة التفعيل التلقائية إلى العيادة.
+        </div>
+
+        <button class="submit-btn whatsapp-btn force-pulse" onclick="sendPatientWhatsApp()">تأكيد الحجز عبر الواتساب 💬</button>
     </div>
 </div>
 
 <script>
-    // EXACT SAME CONFIG AS YOUR MASTER APP
     const firebaseConfig = {
         apiKey: "AIzaSyBmQlAnDbaVeZOz1lZbRsH-NyJ7TgTfBPU",
         authDomain: "saad-clinic.firebaseapp.com",
@@ -245,7 +255,6 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // The 5-Second Splash Screen Logic
     let splashTimeout = setTimeout(showBookingForm, 5000);
 
     function showBookingForm() {
@@ -262,9 +271,15 @@
     }
 
     function selectDuration(element, value) {
-        document.querySelectorAll('.mcq-chip').forEach(chip => chip.classList.remove('active'));
+        document.querySelectorAll('#durationGrid .mcq-chip').forEach(chip => chip.classList.remove('active'));
         element.classList.add('active');
         document.getElementById('ptDuration').value = value;
+    }
+
+    function selectDay(element, value) {
+        document.querySelectorAll('#dayGrid .mcq-chip').forEach(chip => chip.classList.remove('active'));
+        element.classList.add('active');
+        document.getElementById('ptDay').value = value;
     }
 
     function submitRequest() {
@@ -273,9 +288,10 @@
         const phone = document.getElementById('ptPhone').value.trim();
         const symptom = document.getElementById('ptSymptom').value.trim();
         const duration = document.getElementById('ptDuration').value;
+        const day = document.getElementById('ptDay').value;
 
-        if (!name || !age || !phone || !symptom || !duration) {
-            alert("يرجى ملء جميع الحقول المطلوبة واختيار مدة الأعراض قبل الإرسال.");
+        if (!name || !age || !phone || !symptom || !duration || !day) {
+            alert("يرجى ملء جميع الحقول المطلوبة واختيار المدة واليوم المفضل قبل الإرسال.");
             return;
         }
 
@@ -283,15 +299,18 @@
         btn.innerText = "جاري التأمين والإرسال...";
         btn.disabled = true;
 
+        // Bundling the Day directly into the duration string so it instantly appears in the Master Dashboard without extra code changes!
+        const mergedDuration = `${duration} | المفضلة: ${day}`;
+
         const requestData = {
             name: name,
             age: age,
             phone: phone,
             symptom: symptom,
-            duration: duration,
+            duration: mergedDuration, 
             timestamp: new Date().toISOString(),
             status: "pending",
-            discount: "20k applied" // Tags it for your secretary
+            discount: "20k applied"
         };
 
         db.ref('pendingBookings').push(requestData)
@@ -307,12 +326,11 @@
             });
     }
 
-    // ⭐ PATIENT TO CLINIC WHATSAPP BRIDGE
     function sendPatientWhatsApp() {
         const name = document.getElementById('ptName').value.trim();
-        const msg = encodeURIComponent(`مرحباً عيادة د. سعد صبري،\nلقد قمت للتو بتسجيل حجز إلكتروني باسم (${name}).\nأرجو تأكيد الموعد علماً أنني مشمول بخصم الحجز الإلكتروني (اجرة فحص العيادة 20 ألف دينار). شكراً لكم.`);
+        const day = document.getElementById('ptDay').value;
+        const msg = encodeURIComponent(`مرحباً عيادة د. سعد صبري،\nلقد قمت للتو بتسجيل حجز إلكتروني باسم (${name}) ليوم (${day}).\nأرجو تأكيد الموعد علماً أنني مشمول بخصم الحجز الإلكتروني (الكشفية 20 ألف دينار). شكراً لكم.`);
         
-        // Automatically redirects them to chat with your clinic number
         window.open(`https://wa.me/9647707684499?text=${msg}`, '_blank');
     }
 </script>
