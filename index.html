@@ -184,12 +184,12 @@
 
         <div class="input-group">
             <label>العمر</label>
-            <input type="number" id="ptAge" placeholder="أدخل العمر" required style="text-align: right;">
+            <input type="text" inputmode="numeric" id="ptAge" placeholder="أدخل العمر" required style="text-align: right;" oninput="this.value = this.value.replace(/[^0-9٠-٩]/g, '')">
         </div>
 
         <div class="input-group">
             <label>رقم الهاتف (واتساب)</label>
-            <input type="tel" id="ptPhone" placeholder="07XX XXX XXXX" required dir="ltr" style="text-align: right;">
+            <input type="text" inputmode="numeric" id="ptPhone" placeholder="07XX XXX XXXX" required dir="ltr" style="text-align: right;" oninput="this.value = this.value.replace(/[^0-9٠-٩\+]/g, '')">
         </div>
 
         <div class="input-group">
@@ -200,10 +200,11 @@
         <div class="input-group">
             <label>منذ متى تشعر بالأعراض؟</label>
             <div class="mcq-grid" id="durationGrid">
+                <div class="mcq-chip" onclick="selectDuration(this, 'أقل من شهر')">أقل من شهر</div>
                 <div class="mcq-chip" onclick="selectDuration(this, 'شهر و اكثر')">شهر و اكثر</div>
                 <div class="mcq-chip" onclick="selectDuration(this, '٣ أشهر و اكثر')">٣ أشهر و اكثر</div>
                 <div class="mcq-chip" onclick="selectDuration(this, '٦ أشهر و اكثر')">٦ أشهر و اكثر</div>
-                <div class="mcq-chip" onclick="selectDuration(this, 'سنة و اكثر')">سنة و اكثر</div>
+                <div class="mcq-chip" style="grid-column: span 2;" onclick="selectDuration(this, 'سنة و اكثر')">سنة و اكثر</div>
             </div>
             <input type="hidden" id="ptDuration" value="">
         </div>
@@ -284,15 +285,24 @@
         document.getElementById('ptDay').value = value;
     }
 
+    // Helper to translate Arabic digits to English digits for the Database
+    function normalizeDigits(str) {
+        const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+        return str.replace(/[٠-٩]/g, function(w) {
+            return arabicNumbers.indexOf(w);
+        });
+    }
+
     function submitRequest() {
         const name = document.getElementById('ptName').value.trim();
-        const age = document.getElementById('ptAge').value.trim();
-        const phone = document.getElementById('ptPhone').value.trim();
+        // Capture and convert Arabic numbers automatically
+        const ageRaw = document.getElementById('ptAge').value.trim();
+        const phoneRaw = document.getElementById('ptPhone').value.trim();
         const symptom = document.getElementById('ptSymptom').value.trim();
         const duration = document.getElementById('ptDuration').value;
         const day = document.getElementById('ptDay').value;
 
-        if (!name || !age || !phone || !symptom || !duration || !day) {
+        if (!name || !ageRaw || !phoneRaw || !symptom || !duration || !day) {
             alert("يرجى ملء جميع الحقول المطلوبة واختيار المدة واليوم المفضل قبل الإرسال.");
             return;
         }
@@ -301,12 +311,14 @@
         btn.innerText = "جاري التأمين والإرسال...";
         btn.disabled = true;
 
+        const cleanAge = normalizeDigits(ageRaw);
+        const cleanPhone = normalizeDigits(phoneRaw);
         const mergedDuration = `${duration} | المفضلة: ${day}`;
 
         const requestData = {
             name: name,
-            age: age,
-            phone: phone,
+            age: cleanAge,
+            phone: cleanPhone,
             symptom: symptom,
             duration: mergedDuration, 
             timestamp: new Date().toISOString(),
@@ -318,7 +330,7 @@
         db.ref('pendingBookings').push(requestData)
             .then(() => {
                 
-                // ⭐ 2. SEND TO GOOGLE VAULT FOR TELEGRAM (NO TOKENS EXPOSED)
+                // 2. SEND TO GOOGLE VAULT FOR TELEGRAM (NO TOKENS EXPOSED)
                 fetch(secureGoogleVaultUrl, {
                     method: 'POST',
                     mode: 'no-cors', // Bypasses browser security blocks smoothly
