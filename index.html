@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '886349131106442');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=886349131106442&ev=PageView&noscript=1"
+    /></noscript>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>د. سعد صبري الزبيدي | حجز استشارة</title>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root { --primary: #0055ff; --secondary: #eef4fb; --text: #1d1d1f; --text-light: #86868b; --glass: rgba(255, 255, 255, 0.65); --border: rgba(255, 255, 255, 0.4); }
         
@@ -130,23 +146,6 @@
         
         .whatsapp-warning { background: #fff4f4; border: 1px dashed #dc3545; padding: 15px; border-radius: 16px; margin-top: 20px; margin-bottom: 20px; color: #dc3545; font-weight: 800; font-size: 15px; line-height: 1.5; }
     </style>
-    <!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '886349131106442');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=886349131106442&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -187,7 +186,7 @@ src="https://www.facebook.com/tr?id=886349131106442&ev=PageView&noscript=1"
     <div id="bookingForm">
         <div class="form-header">
             <img src="logo.jpg" alt="Dr. Saad Sabry" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3304/3304567.png'">
-            <h2> </h2>حجز افحص في العيادة الجراحية </h2>
+            <h2>حجز فحص في العيادة الجراحية</h2>
         </div>
 
         <div class="discount-badge">
@@ -258,7 +257,6 @@ src="https://www.facebook.com/tr?id=886349131106442&ev=PageView&noscript=1"
 </div>
 
 <script>
-    // EXACT SAME CONFIG AS YOUR MASTER APP
     const firebaseConfig = {
         apiKey: "AIzaSyBmQlAnDbaVeZOz1lZbRsH-NyJ7TgTfBPU",
         authDomain: "saad-clinic.firebaseapp.com",
@@ -272,7 +270,6 @@ src="https://www.facebook.com/tr?id=886349131106442&ev=PageView&noscript=1"
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ⭐ YOUR SECURE GOOGLE MIDDLEMAN
     const secureGoogleVaultUrl = "https://script.google.com/macros/s/AKfycbyJ6VCB9wXgMP-txhLSANSbSfyjBO75rOCYxwL2uzmeZdq14gUM4fNh2Rg3d6SVo34/exec";
 
     let splashTimeout = setTimeout(showBookingForm, 5000);
@@ -302,7 +299,6 @@ src="https://www.facebook.com/tr?id=886349131106442&ev=PageView&noscript=1"
         document.getElementById('ptDay').value = value;
     }
 
-    // Helper to translate Arabic digits to English digits for the Database
     function normalizeDigits(str) {
         const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
         return str.replace(/[٠-٩]/g, function(w) {
@@ -312,7 +308,6 @@ src="https://www.facebook.com/tr?id=886349131106442&ev=PageView&noscript=1"
 
     function submitRequest() {
         const name = document.getElementById('ptName').value.trim();
-        // Capture and convert Arabic numbers automatically
         const ageRaw = document.getElementById('ptAge').value.trim();
         const phoneRaw = document.getElementById('ptPhone').value.trim();
         const symptom = document.getElementById('ptSymptom').value.trim();
@@ -343,14 +338,22 @@ src="https://www.facebook.com/tr?id=886349131106442&ev=PageView&noscript=1"
             discount: "20,000 د.ع"
         };
 
-        // 1. SEND TO FIREBASE FOR SECRETARY
+        // 1. SEND TO FIREBASE
         db.ref('pendingBookings').push(requestData)
             .then(() => {
                 
-                // 2. SEND TO GOOGLE VAULT FOR TELEGRAM (NO TOKENS EXPOSED)
+                // ⭐ TRIGGER META PIXEL "SCHEDULE" EVENT HERE
+                // This tells Meta the patient actually booked.
+                fbq('track', 'Schedule', {
+                    content_name: 'Dr_Saad_Appointment',
+                    currency: 'IQD',
+                    value: 20000 
+                });
+
+                // 2. SEND TO GOOGLE VAULT
                 fetch(secureGoogleVaultUrl, {
                     method: 'POST',
-                    mode: 'no-cors', // Bypasses browser security blocks smoothly
+                    mode: 'no-cors',
                     body: JSON.stringify(requestData)
                 }).catch(err => console.log("Silent error handled"));
 
@@ -371,6 +374,9 @@ src="https://www.facebook.com/tr?id=886349131106442&ev=PageView&noscript=1"
         const day = document.getElementById('ptDay').value;
         const msg = encodeURIComponent(`مرحباً عيادة د. سعد صبري،\nلقد قمت للتو بتسجيل حجز إلكتروني باسم (${name}) ليوم (${day}).\nأرجو تأكيد الموعد علماً أنني مشمول بخصم الحجز الإلكتروني (الكشفية 20 ألف دينار). شكراً لكم.`);
         
+        // Optional: Track a custom event for WhatsApp clicks too
+        fbq('trackCustom', 'WhatsAppContact');
+
         window.open(`https://wa.me/9647707684499?text=${msg}`, '_blank');
     }
 </script>
